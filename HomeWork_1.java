@@ -15,7 +15,6 @@ public class HomeWork_1
          int counter = 0;
          Scanner scn = new Scanner(System.in);
 
-         
          System.out.println("Please input a number x, x>0. ");
          input = scn.nextInt();
 
