@@ -1,44 +1,46 @@
 import java.util.Scanner;
-/*
-* 質數作業 
-* Name: Lichyo
-* Class: 資二甲
-* ID: 111016041
-*/
 
 class PrimeFac
-{   
+{
     private
-    int choice;
-    boolean result_ans;
-    int input;
-    int detector;
+    int input; 
+    boolean flag;
     int counter;
+    int detector;
 
-    public
-    // user's input
-    int input()
+    // Input a Integer x that x > 0 and return int input.
+    public int input()   
     {
         Scanner scn = new Scanner(System.in);
         input = 0;
         
-        System.out.println("Please input a number x, x>0. ");
-        //System.out.println("If you input 0, then the program will close. ");
+        System.out.println("Please input a number x, x>1. ");
+        System.out.printf("x = ");
         input = scn.nextInt();
 
-        while(input <= 0)
-        {
-            System.out.println("x <1, Please input x again. ");
+        // because input <= 1, let user re-input a number
+        while(input <= 1)
+         {
+            System.out.println("x <= 1, Please input x again. ");
             input = scn.nextInt();
-        }
-        scn.close(); 
-        return input;
+         }
+         scn.close(); 
+         return input;
     }
-    
-    // showing the result whether the number is prime or not
-    boolean result(int input)
+
+    // return boolean result of prime detection
+    public boolean result(int input)
     {
-        int counter = 0;
+        flag = false;
+        counter = 0;
+
+        // 2 is a prime number
+        if(input == 2)
+        {
+            flag = true;
+        }
+
+        // detect wether input is a prime number
         for( int detector = 2; detector < input; detector++)
          {
             if( (input % detector) == 0 )
@@ -47,30 +49,36 @@ class PrimeFac
                 break;
             }
          }
-         if(counter == 1 || input == 2)
-         result_ans = true;
+         // if false represent composition number
+         if(counter == 1)
+            flag = false;
 
+         // if true represent prime number
          else if(counter ==0)
-         result_ans = false;
+            flag = true;
 
-         return result_ans;
+         // return result
+         return flag;
     }
-    
-    // processing decomposition
-    void decomposition(int input, boolean result_ans)
+
+    // print decomposition result
+    public void decomposition(int input, boolean flag)
     {
+        detector = 2;
+
         // if input is prime number then break
-        if(result_ans == true)
+        if(flag == true)
         {
-            System.out.println(input + "is a prime number.");
+            System.out.println(input + " is a prime number.");
             return;
         }
         
-        // if not, Processing decomposition and print on screen
-        System.out.printf(input + "= ");
-        int temp = input;
+        // else, Processing decomposition and print on screen
+        System.out.printf(input + " = ");
         counter = 0;
-        for(detector = 2; detector < temp; detector++)
+        
+        // running decomposition
+        while(detector <= input)
         {
             if(input % detector == 0)
             {
@@ -79,66 +87,73 @@ class PrimeFac
                 detector = 2;
                 counter++;
             }
-            if(input == 1 && counter != 0)
+
+            else if (input % detector != 0)
             {
-                System.out.printf("1");
-                return;
+                detector++;
             }
-
         }
-    }
-    
-    // show the functions and return the the user's choice
-    int menu()
-    {
-       while(true)
-       {
-        Scanner scn = new Scanner(System.in);
-        System.out.println("0. Exit.");
-        System.out.println("1. Identify whether the number is a prime number.");
-        System.out.println("2. Processing Prime Factorization.");
-        System.out.printf("Choice a function : ");
-        choice = scn.nextInt();
-        scn.close();
-        return choice;
-       }
-    }
+        if(input == 1)
+        {
+            System.out.println("1");
+            System.out.println();
+            return;     // break to main()
+        }
+    }   
 }
-
 public class HomeWork_1
 {
     public static void main(String args[])
     {   
-        PrimeFac prime = new PrimeFac();
-        int choice;
-        int input = 0;
-        boolean result = false;
+        /*
+        * 質數作業 ：
+        * Name: 李其祐
+        * Class: 資二甲
+        * ID: 111016041
+        * Github: https://github.com/Lichyo/JAVA_Homeworks.git
+        */
 
-        while(true)
-        {
-            choice = prime.menu();
+        /*
+         * 程式使用說明：
+         * 程式開始
+         * 請先輸入一個大於 1 的正整數
+         * true 代表該數字為質數
+         * false 代表該數字為合數
+         * 最後程式會顯示該數字的質因數分解結果
+         * 程式結束並退出
+         */
 
-            // Input a Nature number to identify whether the number is a prime number or not.
-            if(choice == 1)
-            {
-                input = prime.input();
-                result = prime.result(input);
-                System.out.println(result);
-            }
+        // 評分標準(加分部分為可能最大值, 減分部分則為固定值):
+        // 1. 程式有意義且可以執行 (+10%)
+        // 2. 正確顯示答案 (+70%)    
+        // 3. 顯示其因式分解可供驗證是否為質數 (+20%)
+        // 4. 程式檔案沒有遵照規定命名 (-10%)
+        // 5. 主程式開始沒有包含作者、操作說明及符合的評分標準等資訊 (即不遵守作業繳交通則C) (-10%)
+        // 6. 程式沒有適當註解 (-10%)
+        // 7. 抄襲 (上述評分不計, 直接 -50%)
 
-            // Decomposition.
-            if(choice == 2)
-            {
-                // user haven't input a number. Back to Menu.
-                if(input == 0)
-                    continue;
-                
-                prime.decomposition(input, result);
-            }
+        // 自評分數： 90
+        // 1. 將程式做資料封裝
+        // 2. 程式可以正常執行(true and false)
+        // 3. 使用者輸入錯誤整數不會直接跳出程式，會讓使用者重新輸入
+        // 4. 可以執行質因數分解
+        // 5. 有進行適當註解
+        
 
-            // Exit.
-            if(choice == 0)
-                return;
-        }
+        PrimeFac prime = new PrimeFac();    // Constructor
+
+        boolean flag = false;   // result
+        int input = 0;      // Variable that User should Input.
+
+        // input function  
+        input = prime.input();  
+        
+        // result function
+        flag = prime.result(input);
+        System.out.println("Result = " + flag);
+
+        // decomposition function
+        prime.decomposition(input, flag);
+        
     }
 }
