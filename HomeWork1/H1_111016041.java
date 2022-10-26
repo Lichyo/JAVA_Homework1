@@ -101,7 +101,7 @@ class PrimeFac
         }
     }   
 }
-public class HomeWork_1
+public class H1_111016041
 {
     public static void main(String args[])
     {   
@@ -132,7 +132,7 @@ public class HomeWork_1
         // 6. 程式沒有適當註解 (-10%)
         // 7. 抄襲 (上述評分不計, 直接 -50%)
 
-        // 自評分數： 90
+        // 自評分數： 100
         // 1. 將程式做資料封裝
         // 2. 程式可以正常執行(true and false)
         // 3. 使用者輸入錯誤整數不會直接跳出程式，會讓使用者重新輸入
