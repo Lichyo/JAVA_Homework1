@@ -2,9 +2,9 @@ import java.util.Scanner;
 
 public class H2_111016041 
 {
-    public static  int inputArraySpace()   
-    {
-        int input = 0;
+    public static void main(String [] args)
+    {   
+        int arraySpace = 0;
         Scanner scn = new Scanner(System.in);
         
         System.out.println("Please input a number x, x>1. ");
@@ -13,27 +13,17 @@ public class H2_111016041
         //     System.out.println("輸入錯誤！！！");
         //     System.out.printf("請重新輸入：");
         // }
-        input = scn.nextInt();
-        scn.close(); 
-        return input;
-    }
+        arraySpace = scn.nextInt();
 
-    public static int [] inputArray(int arraySpace)
-    {
-        Scanner scn = new Scanner(System.in);
-        int [] array = new int [arraySpace];
+        int array [] = new int[arraySpace];
         System.out.println("請依序輸入欲排序數字，並以空白間隔每個數字");
         System.out.println("例如：2 3 4 7 11 6");
         for(int count = 0; count < arraySpace; count++)
         {
-            System.out.println(array);
+            array[count] = scn.nextInt();
         }
         scn.close();
-        return array;
-    }
 
-    public static void showArray(int array[], int arraySpace)
-    {
         int temp = 0;
         for(int i = 0; i < arraySpace; i++)
         {
@@ -51,15 +41,5 @@ public class H2_111016041
         {
             System.out.printf(array[i] + " ");
         }
-
-    }
-
-    public static void main(String [] args)
-    {
-        int [] array;
-        int arraySpace = 0;
-        arraySpace = inputArraySpace();
-        array = inputArray(arraySpace);
-        // showArray(array, arraySpace);
     }    
 }
