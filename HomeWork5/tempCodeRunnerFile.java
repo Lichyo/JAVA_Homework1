@@ -1,2 +1,1 @@
-System.out.println("進到最後的pop");
-                    // System.out.println("top = " + top);
+1 + 2 * 3 + 4 / 2 - 7
