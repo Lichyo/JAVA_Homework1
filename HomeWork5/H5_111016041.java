@@ -11,8 +11,36 @@ public class H5_111016041
     {
         priority[index + 1] = input;
     }
-    
-
+    public static int deter(String [] stack, int [] priority, String [] inputs, int top, int input_priority, int i)
+    {
+        int count_fail_push = 0;
+        while(top != -1 && priority[top] >= input_priority)
+        {
+            System.out.print(pop(stack, top) + " ");
+            top--;
+            count_fail_push++;
+        }
+        if(count_fail_push > 0)
+        {
+            push(stack, top, inputs[i]);
+            push(priority, top, input_priority);
+            top++;
+            count_fail_push = 0;
+        }
+        if(top != -1 && priority[top] < input_priority )
+        {   
+            push(stack, top, inputs[i]);
+            push(priority, top, input_priority);
+            top++;
+        }
+        if(top == -1)
+        {
+            push(stack, top, inputs[i]);   
+            push(priority, top, input_priority);
+            top++;
+        }
+        return top;
+    }
     public static String pop(String [] stack, int index)
     {
         return stack[index];
@@ -49,124 +77,31 @@ public class H5_111016041
         System.out.println();
         // 1 + 2 * 3 + 4 / 2 - 7
         // ( 1 + 2 ) * 3 + 4 / 2
+
+        // transfer infix to postfix
         for(int i = 0 ; i < input.length; i++ )
         {
             switch(input[i])
             {
                 case "+" :
-                input_priority = 1;
-                while(top != -1 && priority[top] >= input_priority)
-                {
-                    System.out.print(pop(stack, top) + " ");
-                    top--;
-                    count_fail_push++;
-                }
-                if(count_fail_push > 0)
-                {
-                    push(stack, top, "+");
-                    push(priority, top, input_priority);
-                    top++;
-                    count_fail_push = 0;
-                }
-                if(top != -1 && priority[top] < input_priority )
-                {   
-                    push(stack, top, "+");
-                    push(priority, top, input_priority);
-                    top++;
-                }
-                if(top == -1)
-                {
-                    push(stack, top, "+");   
-                    push(priority, top, input_priority);
-                    top++;
-                }
-                break;
+                    input_priority = 1;
+                    top = deter(stack, priority, input, top, input_priority, i);
+                    break;
 
                 case "-" :
                     input_priority = 1;
-                    while(top != -1 && priority[top] >= input_priority)
-                    {
-                        System.out.print(pop(stack, top) + " ");
-                        top--;
-                        count_fail_push++;
-                    }
-                    if(count_fail_push > 0)
-                    {
-                        push(stack, top, "-");
-                        push(priority, top, input_priority);
-                        top++;
-                        count_fail_push = 0;
-                    }
-                    if(top != -1 && priority[top] < input_priority )
-                    {   
-                        push(stack, top, "-");
-                        push(priority, top, input_priority);
-                        top++;
-                    }
-                    if(top == -1)
-                    {
-                        push(stack, top, "-");   
-                        push(priority, top, input_priority);
-                        top++;
-                    }
+                    top = deter(stack, priority, input, top, input_priority, i);
                     break;
+                    
 
                 case "*" :
                     input_priority = 2;
-                    while(top != -1 && priority[top] >= input_priority)
-                    {
-                        System.out.print(pop(stack, top) + " ");
-                        top--;
-                        count_fail_push++;
-                    }
-                    if(count_fail_push > 0)
-                    {
-                        push(stack, top, "*");
-                        push(priority, top, input_priority);
-                        top++;
-                        count_fail_push = 0;
-                    }
-                    if(top != -1 && priority[top] < input_priority )
-                    {   
-                        push(stack, top, "*");
-                        push(priority, top, input_priority);
-                        top++;
-                    }
-                    if(top == -1)
-                    {
-                        push(stack, top, "*");   
-                        push(priority, top, input_priority);
-                        top++;
-                    }
+                    top = deter(stack, priority, input, top, input_priority, i);
                     break;
 
                 case "/" :
                     input_priority = 2;
-                    while(top != -1 && priority[top] >= input_priority)
-                    {
-                        System.out.print(pop(stack, top) + " ");
-                        top--;
-                        count_fail_push++;
-                    }
-                    if(count_fail_push > 0)
-                    {
-                        push(stack, top, "/");
-                        push(priority, top, input_priority);
-                        top++;
-                        count_fail_push = 0;
-                    }
-                    if(top != -1 && priority[top] < input_priority )
-                    {   
-                        push(stack, top, "/");
-                        push(priority, top, input_priority);
-                        top++;
-                    }
-                    if(top == -1)
-                    {
-                        push(stack, top, "/");   
-                        push(priority, top, input_priority);
-                        top++;
-                    }
+                    top = deter(stack, priority, input, top, input_priority, i);
                     break;
 
                 case "(" :
@@ -193,14 +128,18 @@ public class H5_111016041
                     break;
             }
         }   
-            // Output
-            for(int j = 0;j < stack.length; j++)
+        // Output post fix
+        for(int j = 0;j < stack.length; j++)
+        {
+            if(top >= 0)
             {
-                if(top >= 0)
-                {
-                    System.out.print(pop(stack, top) + " ");
-                    top--;
-                }
+                System.out.print(pop(stack, top) + " ");
+                top--;
             }
+        }
+        
+        
+
+        
     }
 }
