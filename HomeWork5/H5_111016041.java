@@ -6,10 +6,10 @@ public class H5_111016041
     public static void push(String [] stack, int index, String input)
     {
         stack[index + 1] = input;
-        for(int i = 0; i < 5; i++)
-        {
-            System.out.println("現在的stack = " + stack[i]);
-        }
+        // for(int i = 0; i < 3; i++)
+        // {
+        //     System.out.println("現在的stack = " + stack[i]);
+        // }
     }
 
     public static String pop(String [] stack, int index)
@@ -54,17 +54,16 @@ public class H5_111016041
             {
                 // System.out.println("進到Switch");
                 case "+" :
-                    System.out.println("進到case + ");
-                    
+                    // System.out.println("進到case + ");
                     // empty
                     if(top != -1 && priority[top] < input_priority )
                     {   
                         push(stack, top, "+");
                         top++;
                     }
-                    while(top != -1 && priority[top] > input_priority)
+                    while(top != -1 && priority[top] >= input_priority)
                     {
-                        System.out.print(pop(stack, top));
+                        System.out.print(pop(stack, top) + " ");
                         top--;
                         count_fail_push++;
                     }
@@ -76,17 +75,19 @@ public class H5_111016041
                     }
                     if(top == -1)
                     {
-                        push(stack, 0, "+");   
+                        push(stack, top, "+");   
                         top++;
                     }
+                    
+                    
                     break;
                 case "" :
                     System.out.println("transfer done");
                     break;
 
                 default:
-                    System.out.print("this is default : ");
-                    System.out.println(input[i]);
+                    // System.out.print("this is default : ");
+                    System.out.print(input[i] + " ");
                     break;
             }
         }   
@@ -94,9 +95,9 @@ public class H5_111016041
             {
                 if(top >= 0)
                 {
-                    System.out.println("進到最後的pop");
-                    System.out.println("top = " + top);
-                    System.out.print(pop(stack, top));
+                    // System.out.println("進到最後的pop");
+                    // System.out.println("top = " + top);
+                    System.out.print(pop(stack, top) + " ");
                     top--;
                 }
             }
