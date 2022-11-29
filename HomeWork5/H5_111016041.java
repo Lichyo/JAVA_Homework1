@@ -3,6 +3,19 @@ import java.util.Scanner;
 
 public class H5_111016041
 {
+    public static void push(String [] stack, int index, String input)
+    {
+        stack[index + 1] = input;
+        for(int i = 0; i < 5; i++)
+        {
+            System.out.println("現在的stack = " + stack[i]);
+        }
+    }
+
+    public static String pop(String [] stack, int index)
+    {
+        return stack[index];
+    }
     public static void main(String [] args)
     {
         Scanner scanner = new Scanner(System.in);
@@ -26,50 +39,66 @@ public class H5_111016041
         System.out.print("請輸入中序表示式，並以空格間隔每個運算子、元：");
         input = scanner.nextLine().split(" ");
         scanner.close();
-      
+
+        System.out.println("Your input :");
+        // print out what 
+        for(int i = 0; i < input.length; i++)
+        {
+            System.out.print(input[i] + " ");
+        }
+        System.out.println();
+        // 1 + 2 + 3
         for(int i = 0 ; i < input.length; i++ )
         {
-            switch(input[count])
+            switch(input[i])
             {
+                // System.out.println("進到Switch");
                 case "+" :
-                    if(top == -1)
-                    {
-                        stack[count] = input[count];
-                        priority[count] = 1;
-                        top++;
-                        count++;
-                        System.out.println("top = " + top);
-                        System.out.println("count = " + count);
-                    }
-                    input_priority = 1;
+                    System.out.println("進到case + ");
+                    
+                    // empty
                     if(top != -1 && priority[top] < input_priority )
-                    {
-                        stack[count] = "+";
-                        priority[count] = 1;
+                    {   
+                        push(stack, top, "+");
                         top++;
-                        count++;
-                        System.out.println("top = " + top);
-                        System.out.println("count = " + count);
                     }
                     while(top != -1 && priority[top] > input_priority)
                     {
-                        System.out.print(stack[count]);
+                        System.out.print(pop(stack, top));
                         top--;
                         count_fail_push++;
-                        System.out.println("top = " + top);
-                        System.out.println("count = " + count);
                     }
                     if(count_fail_push > 0)
                     {
-                        stack[count] = "+";
+                        push(stack, top, "+");
                         top++;
-                        count++;
-                        System.out.println("top = " + top);
-                        System.out.println("count = " + count);
+                        count_fail_push = 0;
+                    }
+                    if(top == -1)
+                    {
+                        push(stack, 0, "+");   
+                        top++;
                     }
                     break;
-            }
+                case "" :
+                    System.out.println("transfer done");
+                    break;
 
+                default:
+                    System.out.print("this is default : ");
+                    System.out.println(input[i]);
+                    break;
+            }
         }   
+            for(int j = 0;j < stack.length; j++)
+            {
+                if(top >= 0)
+                {
+                    System.out.println("進到最後的pop");
+                    System.out.println("top = " + top);
+                    System.out.print(pop(stack, top));
+                    top--;
+                }
+            }
     }
 }
