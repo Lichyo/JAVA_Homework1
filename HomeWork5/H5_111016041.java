@@ -48,12 +48,42 @@ public class H5_111016041
         }
         System.out.println();
         // 1 + 2 * 3 + 4 / 2 - 7
+        // ( 1 + 2 ) * 3 + 4 / 2
         for(int i = 0 ; i < input.length; i++ )
         {
             switch(input[i])
             {
                 case "+" :
                 input_priority = 1;
+                while(top != -1 && priority[top] >= input_priority)
+                {
+                    System.out.print(pop(stack, top) + " ");
+                    top--;
+                    count_fail_push++;
+                }
+                if(count_fail_push > 0)
+                {
+                    push(stack, top, "+");
+                    push(priority, top, input_priority);
+                    top++;
+                    count_fail_push = 0;
+                }
+                if(top != -1 && priority[top] < input_priority )
+                {   
+                    push(stack, top, "+");
+                    push(priority, top, input_priority);
+                    top++;
+                }
+                if(top == -1)
+                {
+                    push(stack, top, "+");   
+                    push(priority, top, input_priority);
+                    top++;
+                }
+                break;
+
+                case "-" :
+                    input_priority = 1;
                     while(top != -1 && priority[top] >= input_priority)
                     {
                         System.out.print(pop(stack, top) + " ");
@@ -62,56 +92,27 @@ public class H5_111016041
                     }
                     if(count_fail_push > 0)
                     {
-                        push(stack, top, "+");
+                        push(stack, top, "-");
                         push(priority, top, input_priority);
                         top++;
                         count_fail_push = 0;
                     }
                     if(top != -1 && priority[top] < input_priority )
                     {   
-                        push(stack, top, "+");
+                        push(stack, top, "-");
                         push(priority, top, input_priority);
                         top++;
                     }
                     if(top == -1)
                     {
-                        push(stack, top, "+");   
+                        push(stack, top, "-");   
                         push(priority, top, input_priority);
                         top++;
                     }
                     break;
 
-                case "-" :
-                    input_priority = 1;
-                        while(top != -1 && priority[top] >= input_priority)
-                        {
-                            System.out.print(pop(stack, top) + " ");
-                            top--;
-                            count_fail_push++;
-                        }
-                        if(count_fail_push > 0)
-                        {
-                            push(stack, top, "-");
-                            push(priority, top, input_priority);
-                            top++;
-                            count_fail_push = 0;
-                        }
-                        if(top != -1 && priority[top] < input_priority )
-                        {   
-                            push(stack, top, "-");
-                            push(priority, top, input_priority);
-                            top++;
-                        }
-                        if(top == -1)
-                        {
-                            push(stack, top, "-");   
-                            push(priority, top, input_priority);
-                            top++;
-                        }
-                        break;
-
                 case "*" :
-                input_priority = 2;
+                    input_priority = 2;
                     while(top != -1 && priority[top] >= input_priority)
                     {
                         System.out.print(pop(stack, top) + " ");
@@ -168,66 +169,31 @@ public class H5_111016041
                     }
                     break;
 
-                // case "(" :
-                //     if(top != -1 && priority[top] < input_priority )
-                //     {   
-                //         push(stack, top, "+");
-                //         top++;
-                //     }
-                //     while(top != -1 && priority[top] >= input_priority)
-                //     {
-                //         System.out.print(pop(stack, top) + " ");
-                //         top--;
-                //         count_fail_push++;
-                //     }
-                //     if(count_fail_push > 0)
-                //     {
-                //         push(stack, top, "+");
-                //         top++;
-                //         count_fail_push = 0;
-                //     }
-                //     if(top == -1)
-                //     {
-                //         push(stack, top, "+");   
-                //         top++;
-                //     }
-                //     break;
+                case "(" :
+                    input_priority = 3;
+                    push(stack, top, "(");
+                    top++;
+                    break;
 
-                // case ")" :
-                //     if(top != -1 && priority[top] < input_priority )
-                //     {   
-                //         push(stack, top, "+");
-                //         top++;
-                //     }
-                //     while(top != -1 && priority[top] >= input_priority)
-                //     {
-                //         System.out.print(pop(stack, top) + " ");
-                //         top--;
-                //         count_fail_push++;
-                //     }
-                //     if(count_fail_push > 0)
-                //     {
-                //         push(stack, top, "+");
-                //         top++;
-                //         count_fail_push = 0;
-                //     }
-                //     if(top == -1)
-                //     {
-                //         push(stack, top, "+");   
-                //         top++;
-                //     }
-                //     break;
-
-                    
-                // case "" :
-                //     System.out.println("transfer done");
-                //     break;
+                case ")" :
+                    input_priority = 3;
+                    while(pop(stack, top) != "(")
+                    {
+                        System.out.print(pop(stack, top));
+                        top--;
+                    }
+                    if(pop(stack, top) == "(")
+                    {
+                        top--;
+                    }
+                    break;
 
                 default:
                     System.out.print(input[i] + " ");
                     break;
             }
         }   
+            // Output
             for(int j = 0;j < stack.length; j++)
             {
                 if(top >= 0)
