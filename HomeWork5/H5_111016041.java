@@ -3,6 +3,7 @@ import java.util.Scanner;
 
 public class H5_111016041
 {
+    static int count_fail_push = 0;
     public static void push(String [] stack, int index, String input)
     {
         stack[index + 1] = input;
@@ -48,7 +49,6 @@ public class H5_111016041
     public static int [] deterPrefix(String [] stack, int [] priority, String [] inputs, String [] prefix, int top, int input_priority, int i, int prefix_top)
     {
         String prefix_input = inputs[inputs.length -1 -i];
-        int count_fail_push = 0;
         int  [] result = new int [2];
 
         // priority[top] <= priority of input
@@ -72,22 +72,32 @@ public class H5_111016041
                 push(prefix, prefix_top, pop(stack, top));
                 prefix_top++;
                 count_fail_push++;
+                if(top == 0)
+                {
+                    System.out.println("into 6 ");
+                    push(stack , top, prefix_input);
+                    push(priority, top, input_priority);
+                    top++;
+                    count_fail_push = 0;
+                    break;
+                }
                 top--;
-                // System.out.println("into 1");
+                System.out.println("into 1");
+                System.out.println("top = " + top);
             }
             if(count_fail_push > 0)
             {
-                // System.out.println("into 2");
+                System.out.println("into 2");
                 push(stack, top, prefix_input);
-                // System.out.println("into 3");
+                System.out.println("into 3");
                 push(priority, top, input_priority);
                 top++;
-                // System.out.println("into 4");
-                // System.out.print("Present stack : ");
-                // for(int x = 0; x < stack.length; x++)
-                // {   
-                //     System.out.print(stack[x] + " ");
-                // }
+                System.out.println("into 4");
+                System.out.print("Present stack : ");
+                for(int x = 0; x < stack.length; x++)
+                {   
+                    System.out.print(stack[x] + " ");
+                }
                 count_fail_push = 0;
             }
         }
@@ -95,11 +105,11 @@ public class H5_111016041
         {   
             push(stack, top, prefix_input);
             push(priority, top, input_priority);
-            // System.out.print("Present stack : ");
-            // for(int x = 0; x < stack.length; x++)
-            // {   
-            //     System.out.print(stack[x] + " ");
-            // }
+            System.out.print("Present stack : ");
+            for(int x = 0; x < stack.length; x++)
+            {   
+                System.out.print(stack[x] + " ");
+            }
             top++;
         }
         result[0] = top;
@@ -147,7 +157,8 @@ public class H5_111016041
         // ( 1 + 2 ) * 3 + 4 / 2
 
         // transfer infix to postfix
-        System.out.print("This is infix to postfix : ");
+        {
+            System.out.print("This is infix to postfix : ");
         for(int i = 0 ; i < input.length; i++ )
         {
             switch(input[i])
@@ -207,6 +218,8 @@ public class H5_111016041
             }
         }
 
+        }
+        
         // prefix
         top = -1;
         prefix_top = -1;
@@ -216,12 +229,6 @@ public class H5_111016041
         {
             stack[j] = "";
         }
-        // System.out.print("This is clean stack : ");
-        // check stack is clean
-        // for(int j = 0; j < stack.length; j++)
-        // {
-        //     System.out.print(stack[j]);
-        // }
         String prefix_input = "";
         System.out.println();
         System.out.print("This is infix to prefix : ");
@@ -273,6 +280,7 @@ public class H5_111016041
                     }
                     if(pop(stack, top) == ")" && top != 1)
                     {
+                        push(stack, top, "");
                         top--;
                     }
                     break;
@@ -282,27 +290,28 @@ public class H5_111016041
                 default:
                     push(prefix, prefix_top, prefix_input);
                     prefix_top++;
-                    // System.out.print("Present prefix stack : ");
-                    // for(int x = 0; x < prefix.length; x++)
-                    // {   
-                    //     System.out.print(prefix[x] + " ");
-                    // }
+                    System.out.print("Present prefix stack : ");
+                    for(int x = 0; x < prefix.length; x++)
+                    {   
+                        System.out.print(prefix[x] + " ");
+                    }
                     break;
             }
         }   
-        // System.out.println();
-        // System.out.print("This is stack : ");
+        
+        System.out.println();
+        System.out.print("This is stack : ");
         for(int i = 0; i < input.length; i++)
         {   
             if(top == -1)
                 break;
-            // System.out.print(pop(stack, top) + " ");
+            System.out.print(pop(stack, top) + " ");
             push(prefix, prefix_top, pop(stack, top));
             prefix_top++;
             top--;
         }
-        // System.out.println();
-        // System.out.print("This is prefix stack : ");
+        System.out.println();
+        System.out.print("This is prefix stack : ");
         for(int i = 0; i < input.length; i++)
         {   
             if(prefix_top == -1)
