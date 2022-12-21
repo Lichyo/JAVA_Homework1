@@ -4,9 +4,48 @@ import java.awt.event.*;
 public class H7_111016041 {
     static String inputHead ="";
     static String inputRear ="";
+    static String inputTemp = "";
+    static double input_1 = 0;
+    static double input_2 = 0;
+    static int calculateFlag = 0;
+    static String calculateOperator = "";
+    static int inputFlag = 0;
+    static public void inputting()
+    {
+        if(calculateFlag < 2)
+            calculateFlag++;
+
+        else if(calculateFlag == 2)
+            calculateFlag = 0;
+    }
     static class MyListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             String btn = e.getActionCommand();
+            if(calculateFlag == 2)
+            {
+                switch(calculateOperator)
+                {
+                    case "+":
+                        inputHead = Double.toString(Double.parseDouble(inputHead) + Double.parseDouble(inputTemp));
+                        calculateFlag = inputFlag = 0;
+                    break;
+                    
+                    case "-":
+                        inputHead = Double.toString(Double.parseDouble(inputHead) - Double.parseDouble(inputTemp));
+                        calculateFlag = inputFlag = 0;
+                    break;
+
+                    case "*":
+                        inputHead = Double.toString(Double.parseDouble(inputHead) * Double.parseDouble(inputTemp));
+                        calculateFlag = inputFlag = 0;
+                    break;
+
+                    case "/":
+                        inputHead = Double.toString(Double.parseDouble(inputHead) / Double.parseDouble(inputTemp));
+                        calculateFlag = inputFlag = 0;
+                    break;
+                }
+            }
             switch( btn ) {
                 case "0": 
                     inputRear = "0";
@@ -39,38 +78,89 @@ public class H7_111016041 {
                     inputRear = "9";
                     break;
                 case "+":
-                    inputRear = "+";
-                    break;
+                    calculateOperator = "+";
+                    inputting();
+                    return;
                 case "-":
-                    inputRear = "-";
-                    break;
+                    calculateOperator = "-";
+                    inputting();
+                    return;
                 case "*":
-                    inputRear = "*";
-                    break;
+                    calculateOperator = "*";
+                    inputting();
+                    return;
                 case "/":
-                    inputRear = "/";
-                    break;
+                    calculateOperator = "/";
+                    inputting();
+                    return;
+
+                case "%":
+                    double i = 0;
+                    i = Double.parseDouble(inputHead);
+                    i = i / 100;
+                    inputHead = Double.toString(i);
+                    lab.setText(inputHead);
+                    return;
+
                 case "=":
-                    break;  
+                    switch(calculateOperator)
+                    {
+                        case "+":
+                            inputHead = Double.toString(Double.parseDouble(inputHead) + Double.parseDouble(inputTemp));
+                            calculateFlag = inputFlag = 0;
+                        break;
+                        
+                        case "-":
+                            inputHead = Double.toString(Double.parseDouble(inputHead) - Double.parseDouble(inputTemp));
+                            calculateFlag = inputFlag = 0;
+                        break;
+
+                        case "*":
+                            inputHead = Double.toString(Double.parseDouble(inputHead) * Double.parseDouble(inputTemp));
+                            calculateFlag = inputFlag = 0;
+                        break;
+
+                        case "/":
+                            inputHead = Double.toString(Double.parseDouble(inputHead) / Double.parseDouble(inputTemp));
+                            calculateFlag = inputFlag = 0;
+                        break;
+                    }
+                    System.out.println("inputHead = " + inputHead);
+                    lab.setText(inputHead);
+                    calculateFlag = 0;
+                    return;
                 case ".":
                     inputRear = ".";
                     break;
                 case "C":
+                    calculateFlag = 0;
                     inputHead = "";
                     inputRear = "";
+                    lab.setText("input : " + "0");
+                    return;
+
+                case "delete":
+                    inputHead = inputHead.substring(0, inputHead.length()-1 );
                     break;
-                
+
                 default: 
                     break;
             }
-            inputHead = inputHead + inputRear;
-            lab.setText(inputHead);
-
-            // System.out.println(inputHead);
+            
+            if(calculateFlag == 0)
+            {
+                inputHead = inputHead + inputRear;  // accumulate inputNumber
+            }   
+            else if(calculateFlag == 1)
+            {
+                inputTemp = inputRear;
+            }
+            System.out.println(inputHead);
+            lab.setText("input : " + inputHead);
         }
     }
     static Frame frm = new Frame();
-    
+    static int result = 0;
     static Button num_1 = new Button("1");
     static Button num_0 = new Button("0");
     static Button num_2 = new Button("2");
@@ -89,7 +179,15 @@ public class H7_111016041 {
     static Button deleteBtn = new Button("delete");
     static Button equalBtn = new Button("=");
     static Button pointBtn = new Button(".");
+    static Button PAndN = new Button("+/-");    // un add
+    static Button CE = new Button("CE");    // un add
+    static Button percent = new Button("%"); // un add 
+    static Button under = new Button("1/x");    // un add
+    static Button square = new Button("square");    // un add
     static Label lab = new Label (inputHead);
+    static Label labOutput = new Label();
+    static Label output = new Label("Result : ");
+    
 
     public static void main(String [] args) {
        
@@ -119,8 +217,13 @@ public class H7_111016041 {
         frm.add(pointBtn);
         frm.add(clearBtn);
         frm.add(lab);
+        frm.add(percent);
+        frm.add(CE);
+
+        // label
+        frm.add(labOutput);
+        frm.add(output);
         lab.setBackground(Color.yellow);
-        
         
         num_1.addActionListener(new MyListener());
         num_2.addActionListener(new MyListener());
@@ -140,8 +243,9 @@ public class H7_111016041 {
         clearBtn.addActionListener(new MyListener());
         pointBtn.addActionListener(new MyListener());
         deleteBtn.addActionListener(new MyListener());
-
-        // textArea.setBounds(0, 0, 400, 300);
+        percent.addActionListener(new MyListener());
+        CE.addActionListener(new MyListener());
+        // .addActionListener(new MyListener());
 
         
         num_0.setBounds(0, 700, 100, 100);
@@ -159,9 +263,13 @@ public class H7_111016041 {
         mulBtn.setBounds(300, 600, 100, 100);
         divBtn.setBounds(300, 700, 100, 100);
         equalBtn.setBounds(200, 700, 100, 100);
-        clearBtn.setBounds(0, 300, 200, 100);
         pointBtn.setBounds(100, 700, 100, 100);
-        deleteBtn.setBounds(200, 300, 200, 100);
-        lab.setBounds(0, 0, 400, 300);
+        clearBtn.setBounds(0, 300, 100, 100);
+        deleteBtn.setBounds(100, 300, 100, 100);
+        percent.setBounds(200, 300, 100, 100);
+        CE.setBounds(300, 300, 100, 100);
+        lab.setBounds(0, 0, 400, 150);
+        output.setBounds(0, 150, 400, 50);
+
     }
 }
